@@ -36,7 +36,7 @@ Google) can be found here:
 AppAuth for Android is available on [MavenCentral](https://search.maven.org/search?q=g:net.openid%20appauth)
 
 ```groovy
-implementation 'net.openid:appauth:0.10.0'
+implementation 'net.openid:appauth:<version>'
 ```
 
 ## Requirements
@@ -446,7 +446,7 @@ private void endSession() {
 @Override
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
   if (requestCode == RC_END_SESSION) {
-    EndSessionResonse resp = EndSessionResonse.fromIntent(data);
+    EndSessionResponse resp = EndSessionResponse.fromIntent(data);
     AuthorizationException ex = AuthorizationException.fromIntent(data);
     // ... process the response or exception ...
   } else {

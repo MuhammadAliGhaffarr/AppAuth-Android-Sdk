@@ -27,6 +27,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.security.SecureRandom;
+import java.util.Objects;
 
 class AuthorizationManagementUtil {
     private static final int STATE_LENGTH = 16;

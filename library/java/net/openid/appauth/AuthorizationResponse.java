@@ -18,6 +18,7 @@ import static net.openid.appauth.AdditionalParamsProcessor.checkAdditionalParams
 import static net.openid.appauth.AdditionalParamsProcessor.extractAdditionalParams;
 import static net.openid.appauth.Preconditions.checkNotNull;
 import static net.openid.appauth.Preconditions.checkNullOrNotEmpty;
+import static net.openid.appauth.Utils.updateRedirectUrl;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -458,15 +459,15 @@ public class AuthorizationResponse extends AuthorizationManagementResponse {
         }
 
         return new TokenRequest.Builder(
-                request.configuration,
-                request.clientId)
-                .setGrantType(GrantTypeValues.AUTHORIZATION_CODE)
-                .setRedirectUri(request.redirectUri)
-                .setCodeVerifier(request.codeVerifier)
-                .setAuthorizationCode(authorizationCode)
-                .setAdditionalParameters(additionalExchangeParameters)
-                .setNonce(request.nonce)
-                .build();
+            request.configuration,
+            request.clientId)
+            .setGrantType(GrantTypeValues.AUTHORIZATION_CODE)
+            .setRedirectUri(updateRedirectUrl(request))
+            .setCodeVerifier(request.codeVerifier)
+            .setAuthorizationCode(authorizationCode)
+            .setAdditionalParameters(additionalExchangeParameters)
+            .setNonce(request.nonce)
+            .build();
     }
 
     @Override
@@ -509,17 +510,27 @@ public class AuthorizationResponse extends AuthorizationManagementResponse {
             throw new IllegalArgumentException(
                 "authorization request not provided and not found in JSON");
         }
+        boolean isContainAppId = JsonUtil.getStringMap(json, KEY_ADDITIONAL_PARAMETERS).containsKey("app_id");
+        boolean isContainWorkspace = JsonUtil.getStringMap(json, KEY_ADDITIONAL_PARAMETERS).containsKey("workspace");
+        AuthorizationRequest authorizationRequest = AuthorizationRequest.jsonDeserialize(json.getJSONObject(KEY_REQUEST));
+        authorizationRequest.isContainAppId = isContainAppId;
+        authorizationRequest.isContainWorkspace = isContainWorkspace;
+        if (isContainAppId)
+            authorizationRequest.clientId = JsonUtil.getStringMap(json, KEY_ADDITIONAL_PARAMETERS).get("app_id").toString();
+
+        if (isContainWorkspace)
+            authorizationRequest.workspace = JsonUtil.getStringMap(json, KEY_ADDITIONAL_PARAMETERS).get("workspace").toString();
 
         return new AuthorizationResponse(
-                AuthorizationRequest.jsonDeserialize(json.getJSONObject(KEY_REQUEST)),
-                JsonUtil.getStringIfDefined(json, KEY_STATE),
-                JsonUtil.getStringIfDefined(json, KEY_TOKEN_TYPE),
-                JsonUtil.getStringIfDefined(json, KEY_AUTHORIZATION_CODE),
-                JsonUtil.getStringIfDefined(json, KEY_ACCESS_TOKEN),
-                JsonUtil.getLongIfDefined(json, KEY_EXPIRES_AT),
-                JsonUtil.getStringIfDefined(json, KEY_ID_TOKEN),
-                JsonUtil.getStringIfDefined(json, KEY_SCOPE),
-                JsonUtil.getStringMap(json, KEY_ADDITIONAL_PARAMETERS));
+            authorizationRequest,
+            JsonUtil.getStringIfDefined(json, KEY_STATE),
+            JsonUtil.getStringIfDefined(json, KEY_TOKEN_TYPE),
+            JsonUtil.getStringIfDefined(json, KEY_AUTHORIZATION_CODE),
+            JsonUtil.getStringIfDefined(json, KEY_ACCESS_TOKEN),
+            JsonUtil.getLongIfDefined(json, KEY_EXPIRES_AT),
+            JsonUtil.getStringIfDefined(json, KEY_ID_TOKEN),
+            JsonUtil.getStringIfDefined(json, KEY_SCOPE),
+            JsonUtil.getStringMap(json, KEY_ADDITIONAL_PARAMETERS));
     }
 
     /**

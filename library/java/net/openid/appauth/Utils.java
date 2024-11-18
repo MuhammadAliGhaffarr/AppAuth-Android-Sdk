@@ -14,6 +14,8 @@
 
 package net.openid.appauth;
 
+import android.net.Uri;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -58,5 +60,14 @@ class Utils {
         } catch (IOException ignored) {
             // deliberately do nothing
         }
+    }
+
+    public static Uri updateRedirectUrl(AuthorizationRequest authorizationRequest) {
+        if (authorizationRequest.isContainAppId && authorizationRequest.isContainWorkspace)
+            return Uri.parse(authorizationRequest.redirectUri + "?app_id=" + authorizationRequest.clientId + "&workspace=" + authorizationRequest.workspace);
+        else if (authorizationRequest.isContainAppId)
+            return Uri.parse(authorizationRequest.redirectUri + "?app_id=" + authorizationRequest.clientId);
+        else
+            return authorizationRequest.redirectUri;
     }
 }

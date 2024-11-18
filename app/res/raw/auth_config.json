@@ -1,12 +1,13 @@
 {
-  "client_id": "",
-  "redirect_uri": "net.openid.appauthdemo:/oauth2redirect",
-  "end_session_redirect_uri": "net.openid.appauthdemo:/oauth2redirect",
-  "authorization_scope": "openid email profile",
+  "client_id": "5345d160-0d05-435e-99a0-8e3b6b806f90",
+  "redirect_uri": "puredome://home",
+  "end_session_redirect_uri": "puredome://home",
+  "end_session_endpoint" : "puredome://home",
+  "authorization_scope": "offline_access",
   "discovery_uri": "",
-  "authorization_endpoint_uri": "",
-  "token_endpoint_uri": "",
-  "registration_endpoint_uri": "",
-  "user_info_endpoint_uri": "",
+  "authorization_endpoint_uri": "https://app.puredome.com/app-login",
+  "token_endpoint_uri": "https://login.puredome.com/oauth2/token",
+  "registration_endpoint_uri": "https://login.puredome.com/oauth2/register",
+  "user_info_endpoint_uri": "https://login.puredome.com/oauth2/userinfo",
   "https_required": true
 }

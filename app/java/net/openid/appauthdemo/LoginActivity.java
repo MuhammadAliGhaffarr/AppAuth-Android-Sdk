@@ -58,6 +58,8 @@ import net.openid.appauth.browser.ExactBrowserMatcher;
 import net.openid.appauthdemo.BrowserSelectionAdapter.BrowserInfo;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -485,6 +487,10 @@ public final class LoginActivity extends AppCompatActivity {
         if (!TextUtils.isEmpty(loginHint)) {
             authRequestBuilder.setLoginHint(loginHint);
         }
+        Map<String, String> additionalParameters = new HashMap<>();
+        additionalParameters.put("tenantId", "9707f41e-21a4-bbc5-dcbc-fdf6b61cc68f");
+        additionalParameters.put("platform", "app");
+        authRequestBuilder.setAdditionalParameters(additionalParameters);
 
         mAuthRequest.set(authRequestBuilder.build());
     }

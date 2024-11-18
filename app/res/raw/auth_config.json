@@ -1,13 +1,13 @@
 {
-  "client_id": "28d14491-8854-4a20-9662-c28e24c73743",
-  "redirect_uri": "com.puredome:/redirecttoapp",
-  "end_session_redirect_uri": "com.puredome:/redirecttoapp",
-  "end_session_endpoint" : "com.puredome:/redirecttoapp",
+  "client_id": "5345d160-0d05-435e-99a0-8e3b6b806f90",
+  "redirect_uri": "puredome://home",
+  "end_session_redirect_uri": "puredome://home",
+  "end_session_endpoint" : "puredome://home",
   "authorization_scope": "offline_access",
   "discovery_uri": "",
-  "authorization_endpoint_uri": "http://enproex.com/test.php",
-  "token_endpoint_uri": "https://purevpndev.fusionauth.io/oauth2/token",
-  "registration_endpoint_uri": "https://purevpndev.fusionauth.io/oauth2/register",
-  "user_info_endpoint_uri": "https://purevpndev.fusionauth.io/oauth2/userinfo",
+  "authorization_endpoint_uri": "https://app.puredome.com/app-login",
+  "token_endpoint_uri": "https://login.puredome.com/oauth2/token",
+  "registration_endpoint_uri": "https://login.puredome.com/oauth2/register",
+  "user_info_endpoint_uri": "https://login.puredome.com/oauth2/userinfo",
   "https_required": true
 }

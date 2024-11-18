@@ -369,8 +369,10 @@ public class AuthorizationRequest implements AuthorizationManagementRequest {
      */
     @NonNull
     public String clientId;
-
     public boolean isContainAppId;
+
+    public boolean isContainWorkspace;
+    public String workspace;
 
     /**
      * The OpenID Connect 1.0 `display` parameter. This is a string that specifies how the
@@ -1109,7 +1111,9 @@ public class AuthorizationRequest implements AuthorizationManagementRequest {
         // mandatory fields
         this.configuration = configuration;
         this.clientId = clientId;
+        this.workspace = "";
         this.isContainAppId = false;
+        this.isContainWorkspace = false;
         this.responseType = responseType;
         this.redirectUri = redirectUri;
         this.additionalParameters = additionalParameters;

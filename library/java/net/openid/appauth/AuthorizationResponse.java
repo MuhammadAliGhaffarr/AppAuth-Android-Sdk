@@ -18,6 +18,7 @@ import static net.openid.appauth.AdditionalParamsProcessor.checkAdditionalParams
 import static net.openid.appauth.AdditionalParamsProcessor.extractAdditionalParams;
 import static net.openid.appauth.Preconditions.checkNotNull;
 import static net.openid.appauth.Preconditions.checkNullOrNotEmpty;
+import static net.openid.appauth.Utils.updateRedirectUrl;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -461,7 +462,7 @@ public class AuthorizationResponse extends AuthorizationManagementResponse {
             request.configuration,
             request.clientId)
             .setGrantType(GrantTypeValues.AUTHORIZATION_CODE)
-            .setRedirectUri(request.isContainAppId ? Uri.parse(request.redirectUri + "?app_id=" + request.clientId) : request.redirectUri)
+            .setRedirectUri(updateRedirectUrl(request))
             .setCodeVerifier(request.codeVerifier)
             .setAuthorizationCode(authorizationCode)
             .setAdditionalParameters(additionalExchangeParameters)
@@ -510,10 +511,15 @@ public class AuthorizationResponse extends AuthorizationManagementResponse {
                 "authorization request not provided and not found in JSON");
         }
         boolean isContainAppId = JsonUtil.getStringMap(json, KEY_ADDITIONAL_PARAMETERS).containsKey("app_id");
+        boolean isContainWorkspace = JsonUtil.getStringMap(json, KEY_ADDITIONAL_PARAMETERS).containsKey("workspace");
         AuthorizationRequest authorizationRequest = AuthorizationRequest.jsonDeserialize(json.getJSONObject(KEY_REQUEST));
         authorizationRequest.isContainAppId = isContainAppId;
+        authorizationRequest.isContainWorkspace = isContainWorkspace;
         if (isContainAppId)
             authorizationRequest.clientId = JsonUtil.getStringMap(json, KEY_ADDITIONAL_PARAMETERS).get("app_id").toString();
+
+        if (isContainWorkspace)
+            authorizationRequest.workspace = JsonUtil.getStringMap(json, KEY_ADDITIONAL_PARAMETERS).get("workspace").toString();
 
         return new AuthorizationResponse(
             authorizationRequest,

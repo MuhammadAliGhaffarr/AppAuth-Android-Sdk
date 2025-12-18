@@ -1,0 +1,3 @@
+[submodule "external/appauth-android"]
+	path = external/appauth-android
+	url = https://github.com/MuhammadAliGhaffarr/AppAuth-Android-Sdk.git
